@@ -1,0 +1,90 @@
+{% extends "page.html" %}
+{% import 'macros/form.html' as form %}
+
+	{% block title %}CKANBase - {{ super() }}{% endblock %}
+
+	{% block secondary %}
+      <aside class="secondary col-sm-3">
+        {#
+        The secondary_content block can be used to add content to the
+        sidebar of the page. This is the main block that is likely to be
+        used within a template.
+
+        Example:
+
+          {% block secondary_content %}
+            <h2>A sidebar item</h2>
+            <p>Some content for the item</p>
+          {% endblock %}
+        #}
+        
+    	{% block secondary_content %}
+        <h2 class="module-heading"><i class="fa fa-leaf icon-file"></i> {{ _('CKANBase') }}</h2>
+        <section class="module-content">
+      		<p>This is where we extract Cassavabase data into CKAN</p>
+
+          <p>Cassavabase is one of the breeding databases in IITA used to share data and tools for cassava breeding.</p>
+
+          <p>Through studyDbId of a study in Cassavabase, APIs are used to access the data and extract the metadata as well as the observations taken during the study.</p>
+
+          <p>Enter a valid studyDbId from Cassavabase in the textbox and click <span style="color: #F16526;">Get Data</span> to consume data from Cassavabase.</p>
+
+        </section>
+        {% endblock secondary_content %}
+      </aside>
+    {% endblock secondary %}
+
+ 	
+
+ 	{% block primary %}
+      <div class="primary col-sm-9 col-xs-12">
+        <section class="module-content">
+        {#
+        The primary_content block can be used to add content to the page.
+        This is the main block that is likely to be used within a template.
+
+        Example:
+
+          {% block primary_content %}
+            <h1>My page content</h1>
+            <p>Some content for the page</p>
+          {% endblock %}
+        #}
+        <h3>{{ _('Get dataset from Cassavabase using StudyDbId') }}</h3>
+        {% block primary_content %}
+          <article class="module">
+	          	{#
+		            {% block page_header %}
+		              <header class="module-content page-header">
+		                {% if self.content_action() | trim %}
+		                  <div class="content_action">
+		                    {% block content_action %}{% endblock %}
+		                  </div>
+		                {% endif %}
+		                <ul class="nav nav-tabs">
+		                  {% block content_primary_nav %}{% endblock %}
+		                </ul>
+		              </header>
+		            {% endblock %}
+		            <div class="module-content">
+		              {% if self.page_primary_action() | trim %}
+		                <div class="page_primary_action">
+		                  {% block page_primary_action %}{% endblock %}
+		                </div>
+		              {% endif %}
+	              #}
+	              
+              {% block primary_content_inner %}
+              	<form method="POST" action="{{ h.url_for('cassavabase_data') }}" >
+					{{ form.input('cbase_studydbid', label=_('studyDbId in Cassavabase'), id='field-studydbid', placeholder=_('studyDbId of dataset in Cassavabase'), is_required='true') }}
+					<button type='submit' value="Submit" class="btn btn-primary"><i class="fa fa-download"></i> {{ _('Get Data') }}</button>
+				</form>
+              {% endblock primary_content_inner %}
+            </div>
+          </article>
+        {% endblock primary_content %}
+      </section>
+      </div>
+    {% endblock primary %}
+
+	
